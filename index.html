@@ -114,22 +114,26 @@
 
     <script>
         const loginForm = document.getElementById('loginForm');
-        const errorMessage = document.getElementById('errorMessage');
+const errorMessage = document.getElementById('errorMessage');
 
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+loginForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-            // Check localStorage for the user credentials
-            const storedUser = JSON.parse(localStorage.getItem('newUser'));
-            if (storedUser && username === storedUser.username && password === storedUser.password) {
-                window.location.href = 'welcome.html'; // Redirect new user to their dashboard
-            } else {
-                errorMessage.style.display = 'block'; // Display error if validation fails
-            }
-        });
+    // Retrieve the users array from localStorage
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+
+    // Check if there is a user with matching username and password
+    const validUser = users.find(user => user.username === username && user.password === password);
+
+    if (validUser) {
+        window.location.href = 'welcome.html'; // Redirect to welcome page on successful login
+    } else {
+        errorMessage.style.display = 'block'; // Display error if validation fails
+    }
+});
     </script>
 
 </body>
